@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Custom Agent Widget</title>
+  <script src="https://lpcdn.lpsnmedia.net/webagent/client-SDK.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    #output {
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background-color: #f7f7f7;
+    }
+  </style>
+</head>
+<body>
+  <h2>LivePerson Agent Widget</h2>
+  <button id="getConversationId">Get Conversation ID</button>
+  <div id="output">Output will appear here</div>
+
+  <script>
+    // Wait until the SDK is ready
+    window.lpTag.agentSDK.init();
+
+    document.getElementById("getConversationId").onclick = function () {
+      lpTag.agentSDK.get("conversationId", function (data) {
+        document.getElementById("output").innerText = 
+          "Conversation ID: " + (data && data.conversationId ? data.conversationId : "Not found");
+      }, function (err) {
+        document.getElementById("output").innerText = "Error: " + JSON.stringify(err);
+      });
+    };
+  </script>
+</body>
+</html>
