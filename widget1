@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Question Detector Widget</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 16px;
+      background-color: #f9f9f9;
+    }
+    #output {
+      margin-top: 16px;
+      padding: 10px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      min-height: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Visitor Questions</h3>
+  <div id="output">No question detected yet.</div>
+
+  <script src="https://lpcdn.lpsnmedia.net/webagent/client-SDK.min.js"></script>
+  <script>
+    // Initialize the SDK
+    lpTag.agentSDK.init({
+      success: function () {
+        console.log("SDK Initialized");
+
+        // Subscribe to visitor messages
+        lpTag.agentSDK.bind("consumerMessage", function(data) {
+          if (data && data.text) {
+            const message = data.text.trim();
+            if (message.includes("?")) {
+              document.getElementById("output").innerText = message;
+            }
+          }
+        }, function(error) {
+          console.error("Bind failed", error);
+        });
+      },
+      error: function (err) {
+        console.error("SDK init failed", err);
+      }
+    });
+  </script>
+</body>
+</html>
